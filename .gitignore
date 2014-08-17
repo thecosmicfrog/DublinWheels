@@ -1,0 +1,4 @@
+.excludes
+manifest.json
+DublinWheels.qmlproject.user
+/tests
