@@ -1,15 +1,15 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 0.1
 import QtLocation 5.0
 import QtPositioning 5.2
+import QtQuick.XmlListModel 2.0
 
 Page {
     title: i18n.tr("DublinWheels")
 
     // Always begin by loading the selected stop.
     Component.onCompleted: {
-        activityIndicator.running = true
-        stationSelector.selectedIndex = getLastStationIndex(lastStation.contents.stationName, stationsModel)
         queryStationsWorker.sendMessage({'station': stationsModel.get(stationSelector.selectedIndex).name})
     }
 
@@ -24,6 +24,8 @@ Page {
             spotsAvailableLabel.font.pointSize = 28;
             spotsAvailableLabel.text = "<b>" + messageObject.stationInfo.free + "</b><br>Spots";
 
+            map.center = QtPositioning.coordinate(messageObject.stationInfo.lat, messageObject.stationInfo.lng)
+
             activityIndicator.running = false
         }
     }
@@ -34,8 +36,10 @@ Page {
 
         onMessage: {
             for (var i = 0; i < messageObject.stations.length; i++) {
-                stationsModel.append({ "name": messageObject.stations[i], "description": "" })
+                stationsModel.append({ "name": messageObject.stations[i].name, "description": "" })
             }
+
+            stationSelector.selectedIndex = getLastStationIndex(lastStation.contents.stationName, stationsModel)
         }
     }
 
@@ -141,7 +145,6 @@ Page {
             top: availabilityRow.bottom
 
             topMargin: units.gu(1)
-
             margins: units.gu(1)
         }
 
@@ -152,10 +155,51 @@ Page {
                 fill: parent
             }
 
-            center: QtPositioning.coordinate(53.35,-6.26)
-            zoomLevel: 13
+            center: QtPositioning.coordinate(53.351, -6.260)
+            zoomLevel: 14
 
             plugin: Plugin { name: "osm" }
+
+            XmlListModel {
+                id: bikeStationModel
+                source: "http://dublinwheels.thecosmicfrog.org/dublinbikes-api.php"
+                query: "/stations/item"
+                XmlRole { name: "name";  query: "name/string()";  isKey: true }
+                XmlRole { name: "lat";   query: "lat/string()";   isKey: true }
+                XmlRole { name: "lng";   query: "lng/string()";   isKey: true }
+                XmlRole { name: "bikes"; query: "bikes/string()"; isKey: true }
+                XmlRole { name: "free";  query: "free/string()";  isKey: true }
+            }
+
+            MapItemView  {
+                model: bikeStationModel
+                delegate: MapQuickItem {
+                    id: poiItem
+                    coordinate: QtPositioning.coordinate(lat, lng)
+
+                    anchorPoint.x: poiImage.width * 0.5
+                    anchorPoint.y: poiImage.height
+
+                    sourceItem: Image {
+                        id: poiImage
+                        width: units.gu(3)
+                        height: units.gu(3)
+                        source: "../img/place_icon.svg"
+
+                        MouseArea {
+                            anchors.fill: parent
+
+                            onClicked: {
+                                PopupUtils.open(bikeStationPopover)
+                            }
+                        }
+                    }
+
+                    BikeStationPopover {
+                        id: bikeStationPopover
+                    }
+                }
+            }
         }
     }
 

@@ -1,4 +1,3 @@
-
 WorkerScript.onMessage = function(sentMessage) {
     var xmlHttp = new XMLHttpRequest();
     var msg;
@@ -17,12 +16,21 @@ WorkerScript.onMessage = function(sentMessage) {
 
             if (typeof parsedMsg != "undefined") {
                 for (var i = 0; i < parsedMsg.length; i++) {
-                    stations.push(parsedMsg[i].name);
+                    stations.push(parsedMsg[i]);
                 }
 
-                stations.sort();
+                stations.sort(compare);
                 WorkerScript.sendMessage({'stations': stations});
             }
         }
     }
+}
+
+function compare(a, b) {
+    if (a.name < b.name)
+        return -1;
+    if (a.name > b.name)
+        return 1;
+
+    return 0;
 }

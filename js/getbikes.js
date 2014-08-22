@@ -1,4 +1,3 @@
-
 WorkerScript.onMessage = function(sentMessage) {
     var stationName = sentMessage.station;
     var xmlHttp = new XMLHttpRequest();
