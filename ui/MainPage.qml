@@ -193,6 +193,7 @@ Page {
 
                             onClicked: {
                                 PopupUtils.open(bikeStationPopover)
+                                stationSelector.selectedIndex = getLastStationIndex(name, stationsModel)
                             }
                         }
                     }
