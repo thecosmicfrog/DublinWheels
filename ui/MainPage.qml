@@ -24,7 +24,9 @@ Page {
             spotsAvailableLabel.font.pointSize = 28;
             spotsAvailableLabel.text = "<b>" + messageObject.stationInfo.free + "</b><br>Spots";
 
-            map.center = QtPositioning.coordinate(messageObject.stationInfo.lat, messageObject.stationInfo.lng)
+            // Workaround - FIXME
+            map.center = QtPositioning.coordinate(messageObject.stationInfo.lat / 1000000, messageObject.stationInfo.lng / 1000000)
+            map.zoomLevel = 15
 
             activityIndicator.running = false
         }
@@ -74,7 +76,7 @@ Page {
                 queryBikesWorker.sendMessage({'station': stationsModel.get(stationSelector.selectedIndex).name})
 
                 // Save station to U1DB backend for faster access on next app start.
-                lastStation.contents = {stationName: stationsModel.get(stationSelector.selectedIndex).name}
+                lastStation.contents = {stationName: stationsModel.get(stationSelector.selectedIndex).name}                
             }
         }
 
