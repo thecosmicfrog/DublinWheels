@@ -11,7 +11,7 @@ MainView {
     //automaticOrientation: true
 
     width: units.gu(44)
-    height: units.gu(68)
+    height: units.gu(78)
 
     function getArray(obj) {
         var arr = [];

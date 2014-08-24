@@ -107,7 +107,7 @@ Page {
         UbuntuShape {
             id: bikesAvailable
             width: parent.width / 2
-            height: units.gu(16)
+            height: units.gu(13)
             radius: "medium"
             color: "#7dc242"
 
@@ -123,7 +123,7 @@ Page {
         UbuntuShape {
             id: spotsAvailable
             width: parent.width / 2
-            height: units.gu(16)
+            height: units.gu(13)
             radius: "medium"
             color: "#add8e6"
 
@@ -164,7 +164,7 @@ Page {
 
             XmlListModel {
                 id: bikeStationModel
-                source: "http://dublinwheels.thecosmicfrog.org/dublinbikes-api.php"
+                source: "http://dublinwheels.thecosmicfrog.org/cgi-bin/dublinbikes-api.py"
                 query: "/stations/item"
                 XmlRole { name: "name";  query: "name/string()";  isKey: true }
                 XmlRole { name: "lat";   query: "lat/string()";   isKey: true }
