@@ -76,7 +76,7 @@ Page {
                 queryBikesWorker.sendMessage({'station': stationsModel.get(stationSelector.selectedIndex).name})
 
                 // Save station to U1DB backend for faster access on next app start.
-                lastStation.contents = {stationName: stationsModel.get(stationSelector.selectedIndex).name}                
+                lastStation.contents = {stationName: stationsModel.get(stationSelector.selectedIndex).name}
             }
         }
 
@@ -164,7 +164,7 @@ Page {
 
             XmlListModel {
                 id: bikeStationModel
-                source: "http://dublinwheels.thecosmicfrog.org/cgi-bin/dublinbikes-api.py"
+                source: "http://api.thecosmicfrog.org/cgi-bin/dublinbikes-api.py"
                 query: "/stations/item"
                 XmlRole { name: "name";  query: "name/string()";  isKey: true }
                 XmlRole { name: "lat";   query: "lat/string()";   isKey: true }

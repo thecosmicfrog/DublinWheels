@@ -1,7 +1,8 @@
 [Desktop Entry]
 Name=DublinWheels
-Exec=/usr/bin/qmlscene $@ /usr/share/DublinWheels/DublinWheels.qml
-Icon=qmlscene
+Comment=Real-time station information for Dublinbikes service.
+Exec=qmlscene $@ DublinWheels.qml
+Icon=dublinwheels_logo.png
 Terminal=false
 Type=Application
 X-Ubuntu-Touch=true

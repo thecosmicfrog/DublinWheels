@@ -20,7 +20,10 @@ ToolbarItems {
             id: aboutPopover
 
             Label {
-                text: ""
+                text: "<p>Real-time station information for Dublinbikes service.</p><br>
+                       <p><a href=\"http://dublinwheels.thecosmicfrog.org\">
+                       http://dublinwheels.thecosmicfrog.org</a></p><br>
+                       <p>Version: 0.1</p>"
                 wrapMode: Text.WordWrap
 
                 onLinkActivated: {
