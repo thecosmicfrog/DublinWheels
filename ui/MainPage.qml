@@ -196,10 +196,10 @@ Page {
                                 stationSelector.selectedIndex = getLastStationIndex(name, stationsModel)
                             }
                         }
-                    }
 
-                    BikeStationPopover {
-                        id: bikeStationPopover
+                        BikeStationPopover {
+                            id: bikeStationPopover
+                        }
                     }
                 }
             }

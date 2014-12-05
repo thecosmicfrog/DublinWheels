@@ -1,6 +1,5 @@
 [Desktop Entry]
 Name=DublinWheels
-Comment=Real-time station information for Dublinbikes service.
 Exec=qmlscene $@ DublinWheels.qml
 Icon=dublinwheels_logo.png
 Terminal=false

@@ -19,3 +19,4 @@ check:
 
 run:
 	/usr/bin/qmlscene $@ DublinWheels.qml
+

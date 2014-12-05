@@ -22,3 +22,4 @@ class MainViewTestCase(DublinWheels.ClickAppTestCase):
         self.pointing_device.click_object(button)
         label = self.main_view.select_single(objectName='label')
         self.assertThat(label.text, Eventually(Equals('..world!')))
+
