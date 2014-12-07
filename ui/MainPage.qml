@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import Ubuntu.Components.Popups 0.1
 import QtLocation 5.0
 import QtPositioning 5.2
@@ -26,7 +26,7 @@ Page {
 
             // Workaround - FIXME
             map.center = QtPositioning.coordinate(messageObject.stationInfo.lat / 1000000, messageObject.stationInfo.lng / 1000000)
-            map.zoomLevel = 15
+            map.zoomLevel = 16
 
             activityIndicator.running = false
         }
@@ -45,23 +45,49 @@ Page {
         }
     }
 
-    Row {
-        id: stationRow
+    Item {
+        id: selectStationRow
 
-        spacing: -20
+        Label {
+            id: selectStationLabel
+
+            text: "<b>Select Station:</b>"
+        }
+
+        ActivityIndicator {
+            id: activityIndicator
+
+            anchors.right: parent.right
+
+            y: selectStationLabel.y - 6
+        }
 
         anchors {
             top: parent.top
             left: parent.left
             right: parent.right
 
-            topMargin: units.gu(1)
+            topMargin: units.gu(2)
+            margins: units.gu(2)
+        }
+    }
+
+    Row {
+        id: stationRow
+
+        spacing: -20
+
+        anchors {
+            top: selectStationRow.top
+            left: parent.left
+            right: parent.right
+
+            topMargin: units.gu(4)
             margins: units.gu(2)
         }
 
         OptionSelector {
             id: stationSelector
-            text: "<h2>Select Station:</h2>"
             containerHeight: units.gu(21.5)
             expanded: false
             model: stationsModel
@@ -80,12 +106,9 @@ Page {
             }
         }
 
-        ActivityIndicator {
-            id: activityIndicator
-        }
-
         ListModel {
             id: stationsModel
+
             ListElement { name: "Select a station..."; description: ""; }
         }
     }
@@ -158,14 +181,27 @@ Page {
             }
 
             center: QtPositioning.coordinate(53.351, -6.260)
-            zoomLevel: 14
+            zoomLevel: 15
 
-            plugin: Plugin { name: "osm" }
+            plugin: Plugin {
+                id: plugin
+                allowExperimental: true
+                preferred: ["nokia", "osm"]
+                required.mapping: Plugin.AnyMappingFeatures
+                required.geocoding: Plugin.AnyGeocodingFeatures
+
+                parameters: [
+                    PluginParameter { name: "app_id"; value: apiKeys.app_id },
+                    PluginParameter { name: "token"; value: apiKeys.token }
+                ]
+            }
 
             XmlListModel {
                 id: bikeStationModel
+
                 source: "http://api.thecosmicfrog.org/cgi-bin/dublinbikes-api.py"
                 query: "/stations/item"
+
                 XmlRole { name: "name";  query: "name/string()";  isKey: true }
                 XmlRole { name: "lat";   query: "lat/string()";   isKey: true }
                 XmlRole { name: "lng";   query: "lng/string()";   isKey: true }

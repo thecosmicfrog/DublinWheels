@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import U1db 1.0 as U1db
 import "ui"
 
@@ -13,16 +13,6 @@ MainView {
     width: units.gu(44)
     height: units.gu(78)
 
-    function getArray(obj) {
-        var arr = [];
-
-        for (var i = 0; i < obj.length; i++) {
-            arr.push(obj[i]);
-        }
-
-        return arr;
-    }
-
     function getLastStationIndex(lastStation, stationsModel) {
         for (var i = 0; i < stationsModel.count; i++) {
             if (lastStation === stationsModel.get(i).name)
@@ -35,7 +25,7 @@ MainView {
     // U1DB backend to record the last-picked station. Makes it faster for users to get information for their usual station.
     U1db.Database {
         id: db;
-        path: "/home/phablet/.local/share/org.thecosmicfrog.dublinwheels/dublinwheels.u1db"
+        path: "dublinwheels.u1db"
     }
 
     U1db.Document {
@@ -49,5 +39,9 @@ MainView {
     }
 
     MainPage {
+    }
+
+    ApiKeys {
+        id: apiKeys
     }
 }

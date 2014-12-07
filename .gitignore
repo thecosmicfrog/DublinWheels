@@ -1,4 +1,5 @@
 .excludes
+ApiKeys.qml
 manifest.json
 DublinWheels.qmlproject.user
 /tests
