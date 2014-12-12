@@ -12,7 +12,7 @@ WorkerScript.onMessage = function(sentMessage) {
             msg = xmlHttp.responseText;
 
             // Parse response text to usable object.
-            stationInfo = eval("(" + msg + ")");
+            stationInfo = JSON.parse(msg);
 
             if (typeof stationInfo != "undefined") {
                 for (var i = 0; i < stationInfo.length; i++) {
