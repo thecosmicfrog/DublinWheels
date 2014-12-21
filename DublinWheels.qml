@@ -4,13 +4,16 @@ import U1db 1.0 as U1db
 import "ui"
 
 MainView {
-    objectName: "mainView"
+    id: mainView
 
     applicationName: "org.thecosmicfrog.dublinwheels"
+    property string version: "0.12"
+
+    useDeprecatedToolbar: false
 
     //automaticOrientation: true
 
-    width: units.gu(44)
+    width: units.gu(45)
     height: units.gu(78)
 
     function getLastStationIndex(lastStation, stationsModel) {

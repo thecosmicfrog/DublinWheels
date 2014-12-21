@@ -1,11 +1,13 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.1
-import Ubuntu.Components.Popups 0.1
+import Ubuntu.Components.Popups 1.0
 import QtLocation 5.0
 import QtPositioning 5.2
 import QtQuick.XmlListModel 2.0
 
 Page {
+    id: mainPage
+
     title: i18n.tr("DublinWheels")
 
     // Always begin by loading the selected stop.
@@ -43,6 +45,32 @@ Page {
 
             stationSelector.selectedIndex = getLastStationIndex(lastStation.contents.stationName, stationsModel)
         }
+    }
+
+    head.actions: [
+        Action {
+            id: reloadAction
+
+            iconName: "reload"
+            text: "Reload"
+
+            onTriggered: {
+                activityIndicator.running = true
+                queryBikesWorker.sendMessage({'station': stationsModel.get(stationSelector.selectedIndex).name})
+            }
+        },
+        Action {
+            id: aboutAction
+
+            iconName: "info"
+            text: "About"
+
+            onTriggered: PopupUtils.open(aboutPopover)
+        }
+    ]
+
+    AboutPopover {
+        id: aboutPopover
     }
 
     Item {
@@ -222,6 +250,7 @@ Page {
                         id: poiImage
                         width: units.gu(3)
                         height: units.gu(3)
+
                         source: "../img/place_icon.svg"
 
                         MouseArea {
@@ -238,19 +267,6 @@ Page {
                         }
                     }
                 }
-            }
-        }
-    }
-
-    tools: Toolbar {
-        ToolbarButton {
-            id: reloadButton
-
-            text: "Reload"
-            iconSource: "../img/reload.png"
-            onTriggered: {
-                activityIndicator.running = true
-                queryBikesWorker.sendMessage({'station': stationsModel.get(stationSelector.selectedIndex).name})
             }
         }
     }
