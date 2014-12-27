@@ -7,7 +7,7 @@ MainView {
     id: mainView
 
     applicationName: "org.thecosmicfrog.dublinwheels"
-    property string version: "0.12"
+    property string version: "0.13"
 
     useDeprecatedToolbar: false
 
