@@ -12,7 +12,7 @@ Page {
 
     // Always begin by loading the selected stop.
     Component.onCompleted: {
-        queryStationsWorker.sendMessage({'station': stationsModel.get(stationSelector.selectedIndex).name})
+        queryStationsWorker.sendMessage({"station": stationsModel.get(stationSelector.selectedIndex).name, "apiKey": apiKeys.jc_decaux_apiKey})
     }
 
     WorkerScript {
@@ -21,13 +21,12 @@ Page {
 
         onMessage: {
             bikesAvailableLabel.font.pointSize = 28;
-            bikesAvailableLabel.text = "<b>" + messageObject.stationInfo.bikes + "</b><br>Bikes";
+            bikesAvailableLabel.text = "<b>" + messageObject.stationInfo.available_bikes + "</b><br>Bikes";
 
             spotsAvailableLabel.font.pointSize = 28;
-            spotsAvailableLabel.text = "<b>" + messageObject.stationInfo.free + "</b><br>Spots";
+            spotsAvailableLabel.text = "<b>" + messageObject.stationInfo.available_bike_stands + "</b><br>Spots";
 
-            // Workaround - FIXME
-            map.center = QtPositioning.coordinate(messageObject.stationInfo.lat / 1000000, messageObject.stationInfo.lng / 1000000)
+            map.center = QtPositioning.coordinate(messageObject.stationInfo.position.lat, messageObject.stationInfo.position.lng)
             map.zoomLevel = 16
 
             activityIndicator.running = false
@@ -40,7 +39,7 @@ Page {
 
         onMessage: {
             for (var i = 0; i < messageObject.stations.length; i++) {
-                stationsModel.append({ "name": messageObject.stations[i].name, "description": "" })
+                stationsModel.append({ "name": messageObject.stations[i].address, "description": "" })
             }
 
             stationSelector.selectedIndex = getLastStationIndex(lastStation.contents.stationName, stationsModel)
@@ -56,7 +55,7 @@ Page {
 
             onTriggered: {
                 activityIndicator.running = true
-                queryBikesWorker.sendMessage({'station': stationsModel.get(stationSelector.selectedIndex).name})
+                queryBikesWorker.sendMessage({"station": stationsModel.get(stationSelector.selectedIndex).name, "apiKey": apiKeys.jc_decaux_apiKey})
             }
         },
         Action {
@@ -127,7 +126,7 @@ Page {
 
             onSelectedIndexChanged: {
                 activityIndicator.running = true
-                queryBikesWorker.sendMessage({'station': stationsModel.get(stationSelector.selectedIndex).name})
+                queryBikesWorker.sendMessage({'station': stationsModel.get(stationSelector.selectedIndex).name, "apiKey": apiKeys.jc_decaux_apiKey})
 
                 // Save station to U1DB backend for faster access on next app start.
                 lastStation.contents = {stationName: stationsModel.get(stationSelector.selectedIndex).name}
@@ -219,8 +218,8 @@ Page {
                 required.geocoding: Plugin.AnyGeocodingFeatures
 
                 parameters: [
-                    PluginParameter { name: "app_id"; value: apiKeys.app_id },
-                    PluginParameter { name: "token"; value: apiKeys.token }
+                    PluginParameter { name: "app_id"; value: apiKeys.here_app_id },
+                    PluginParameter { name: "token"; value: apiKeys.here_token }
                 ]
             }
 

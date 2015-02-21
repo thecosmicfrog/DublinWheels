@@ -1,10 +1,11 @@
 WorkerScript.onMessage = function(sentMessage) {
+    var apiKey = sentMessage.apiKey;
     var xmlHttp = new XMLHttpRequest();
     var msg;
     var parsedMsg;
     var stations = [];
 
-    xmlHttp.open("GET", "http://api.citybik.es/dublinbikes.json", true);
+    xmlHttp.open("GET", "https://api.jcdecaux.com/vls/v1/stations?contract=Dublin&apiKey=" + apiKey, true);
     xmlHttp.send(null);
 
     xmlHttp.onreadystatechange = function() {
