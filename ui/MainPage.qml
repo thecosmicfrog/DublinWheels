@@ -226,7 +226,7 @@ Page {
             XmlListModel {
                 id: bikeStationModel
 
-                source: "https://api.thecosmicfrog.org/cgi-bin/dublinbikes-api.py"
+                source: "https://api1.thecosmicfrog.org/cgi-bin/dublinbikes-api.py"
                 query: "/stations/item"
 
                 XmlRole { name: "name";  query: "name/string()";  isKey: true }

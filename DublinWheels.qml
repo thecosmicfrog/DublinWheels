@@ -7,7 +7,7 @@ MainView {
     id: mainView
 
     applicationName: "org.thecosmicfrog.dublinwheels"
-    property string version: "0.15"
+    property string version: "0.16"
 
     //automaticOrientation: true
 
